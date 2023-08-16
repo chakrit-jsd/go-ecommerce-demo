@@ -8,15 +8,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type userHandler struct {
+type UserHandler struct {
 	userHandle ports.UserService
 }
 
-func NewUserHandler(userHandle ports.UserService) userHandler {
-	return userHandler{userHandle}
+func NewUserHandler(userHandle ports.UserService) UserHandler {
+	return UserHandler{userHandle}
 }
 
-func (h userHandler) PostRegister(c *fiber.Ctx) error {
+func (h UserHandler) PostRegister(c *fiber.Ctx) error {
 
 	user := model_io.User{}
 
@@ -36,7 +36,7 @@ func (h userHandler) PostRegister(c *fiber.Ctx) error {
 		})
 }
 
-func (h userHandler) PutUpdate(c *fiber.Ctx) error {
+func (h UserHandler) PutUpdate(c *fiber.Ctx) error {
 
 	userId := c.Locals("userInfo").(*model_io.User).ID
 
@@ -57,7 +57,7 @@ func (h userHandler) PutUpdate(c *fiber.Ctx) error {
 		})
 }
 
-func (h userHandler) DeleteUser(c *fiber.Ctx) error {
+func (h UserHandler) DeleteUser(c *fiber.Ctx) error {
 	userId := c.Locals("userInfo").(*model_io.User).ID
 	h.userHandle.Delete(&userId)
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
@@ -65,7 +65,7 @@ func (h userHandler) DeleteUser(c *fiber.Ctx) error {
 	})
 }
 
-func (h userHandler) GetMe(c *fiber.Ctx) error {
+func (h UserHandler) GetMe(c *fiber.Ctx) error {
 	user := c.Locals("userInfo").(*model_io.User)
 	// user, err := h.userHandle.GetUserById(&userId)
 	// if err != nil {
@@ -78,7 +78,7 @@ func (h userHandler) GetMe(c *fiber.Ctx) error {
 	})
 }
 
-func (h userHandler) PostLogin(c *fiber.Ctx) error {
+func (h UserHandler) PostLogin(c *fiber.Ctx) error {
 
 	data := model_io.User{}
 
